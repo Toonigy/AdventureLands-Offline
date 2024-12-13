@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdventureLands - Main Menu</title>
+    <link rel="stylesheet" href="styles/main_menu.css">
+</head>
+<body>
+    <div id="main-menu">
+        <h1>AdventureLands</h1>
+        <div class="menu-buttons">
+            <button onclick="startNewGame()">Start New Game</button>
+            <button onclick="loadGame()">Load Game</button>
+        </div>
+        <input type="file" id="file-input" accept=".json" style="display: none;" onchange="handleFileUpload(event)">
+    </div>
+
+    <script>
+        function startNewGame() {
+            // Redirect to the new game setup page
+            window.location.href = "new_game.html";
+        }
+
+        function loadGame() {
+            // Trigger file input for selecting a save file
+            document.getElementById("file-input").click();
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    try {
+                        const saveData = JSON.parse(e.target.result);
+                        localStorage.setItem("saveData", JSON.stringify(saveData));
+                        alert("Game loaded successfully!");
+                        window.location.href = "game.html";
+                    } catch (error) {
+                        alert("Invalid save file. Please try again.");
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+    </script>
+</body>
+</html>
